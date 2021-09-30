@@ -5,11 +5,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./store/index";
 import { Provider } from "react-redux";
+import { BrowserRouter, Route } from "react-router-dom";
+import Home from "./components/Home";
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <Route exact path="/" component={App} />
+      <Route path="/home" component={Home} />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 
