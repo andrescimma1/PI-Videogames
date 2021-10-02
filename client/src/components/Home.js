@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  ascendingOrder,
+  descendingOrder,
   filterForGenre,
   filterForInput,
   showGames,
@@ -15,14 +17,20 @@ export default function Home(props) {
   });
   const genres = useSelector((state) => state.genres);
   const [input, setInput] = useState("");
+  const [clicked, setClicked] = useState(false);
+  const [alphabetic, setAlphabetic] = useState(false);
 
   return (
     <div>
       <button onClick={() => dispatch(showGames())}>MOSTRAR JUEGOS</button>
-      <button onClick={() => dispatch(showGenres())}>MOSTRAR GENEROS</button>
+      <button onClick={() => {
+        console.log(filteredGames);
+        dispatch(showGenres())
+        }}>MOSTRAR GENEROS</button>
       <input
         onChange={(e) => {
           if (e.target.value.length !== 0) {
+            setAlphabetic(false);
             dispatch(filterForInput(e.target.value, games));
           }
           setInput(e.target.value);
@@ -33,25 +41,48 @@ export default function Home(props) {
           <div>
             <button
               onClick={(e) => {
-                console.log(e.target.innerHTML);
-                dispatch(filterForGenre(e.target.innerHTML, filteredGames));
+                setClicked(!clicked);
+                console.log(clicked);
+                if(input.length === 0) dispatch(filterForGenre(e.target.innerHTML, games));
+                else dispatch(filterForGenre(e.target.innerHTML, filteredGames));
               }}
             >
               {genre.name}
             </button>
           </div>
         ))}
+        <select onChange={(e) => {
+          console.log(e.target.value);
+          if(e.target.value == 1) 
+          {
+            setAlphabetic(!alphabetic);
+            dispatch(ascendingOrder(games));
+            setAlphabetic(!alphabetic);
+            console.log(alphabetic);
+          }
+          else if(e.target.value == 2){ 
+            setAlphabetic(!alphabetic);
+            dispatch(descendingOrder(games));
+            setAlphabetic(!alphabetic);
+            console.log(alphabetic);
+          } 
+        }} >
+          <option selected value="0">Elige una opción</option>
+          <option value="1">Ascendente</option>
+          <option value="2">Descendente</option>
+        </select>
       </div>
       <div>
-        {input.length === 0
-          ? games.map((game) => (
-              <div>
-                <h1>{game.name}</h1>
-                {game.genres.map((genre) => (
-                  <h2>{genre.name}</h2>
-                ))}
+        {input.length === 0 && !clicked || alphabetic ? games.map((game) => (
+            <div class="container">
+              <div class="card">
                 <img src={game.background_image} />
+                <h4>{game.name}</h4>
+                {game.genres.map((genre) => (
+                  <p>{genre.name}</p>
+                ))}
               </div>
+            </div>
             ))
           : filteredGames.map((game) => (
               <div>
