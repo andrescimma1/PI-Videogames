@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const axios = require("axios");
+const { response } = require("../app");
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -10,6 +11,14 @@ const router = Router();
 router.get("/", (req, res) => {
   axios
     .get(`https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab`)
+    .then((response) => res.json(response.data));
+});
+
+router.get("/games/:id", (req, res) => {
+  const {id} = req.params;
+
+  axios
+    .get(`https://api.rawg.io/api/games/${id}?key=3d9923605ce94d72b0cc3cc69bfae2ab`)
     .then((response) => res.json(response.data));
 });
 

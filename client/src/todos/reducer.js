@@ -5,6 +5,9 @@ import {
   SHOW_GENRES,
   ASCENDING_ORDER,
   DESCENDING_ORDER,
+  HIGHER_RATING,
+  LOWER_RATING,
+  SHOW_DETAILS,
 } from "./action";
 
 let initialState = {
@@ -70,10 +73,43 @@ const todos = (state = initialState, action) => {
         ...state,
         games: action.payload,
       };
+    case HIGHER_RATING:
+      action.payload.sort((a, b) => {
+        if (a.rating < b.rating) {
+          return 1;
+        }
+        if (a.rating > b.rating) {
+          return -1;
+        }
+        return 0;
+      });
+      return {
+        ...state,
+        games: action.payload,
+      };
+    case LOWER_RATING:
+      action.payload.sort((a, b) => {
+        if (a.rating > b.rating) {
+          return 1;
+        }
+        if (a.rating < b.rating) {
+          return -1;
+        }
+        return 0;
+      });
+      return {
+        ...state,
+        games: action.payload,
+      };
     case SHOW_GENRES:
       return {
         ...state,
         genres: action.payload,
+      };
+    case SHOW_DETAILS:
+      return {
+        ...state,
+        details: action.payload,
       };
     default:
       return state;

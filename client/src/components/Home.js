@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   ascendingOrder,
   descendingOrder,
   filterForGenre,
   filterForInput,
+  higherRating,
+  lowerRating,
   showGames,
   showGenres,
 } from "../todos/action";
@@ -19,6 +22,7 @@ export default function Home(props) {
   const [input, setInput] = useState("");
   const [clicked, setClicked] = useState(false);
   const [alphabetic, setAlphabetic] = useState(false);
+  const [rating, setRating] = useState(false);
 
   return (
     <div>
@@ -58,29 +62,47 @@ export default function Home(props) {
             setAlphabetic(!alphabetic);
             dispatch(ascendingOrder(games));
             setAlphabetic(!alphabetic);
-            console.log(alphabetic);
           }
           else if(e.target.value == 2){ 
             setAlphabetic(!alphabetic);
             dispatch(descendingOrder(games));
             setAlphabetic(!alphabetic);
-            console.log(alphabetic);
           } 
         }} >
           <option selected value="0">Elige una opción</option>
           <option value="1">Ascendente</option>
           <option value="2">Descendente</option>
         </select>
+        <select onChange={(e) => {
+          console.log(e.target.value);
+          if(e.target.value == 1) 
+          {
+            setRating(!rating);
+            dispatch(higherRating(games));
+            setRating(!rating);
+          }
+          else if(e.target.value == 2){ 
+            setRating(!rating);
+            dispatch(lowerRating(games));
+            setRating(!rating);
+          } 
+        }} >
+          <option selected value="0">Elige una opción</option>
+          <option value="1">Mayor Rating</option>
+          <option value="2">Menor Rating</option>
+        </select>
       </div>
       <div>
-        {input.length === 0 && !clicked || alphabetic ? games.map((game) => (
+        {input.length === 0 && !clicked || alphabetic || rating ? games.map((game) => (
             <div class="container">
               <div class="card">
                 <img src={game.background_image} />
                 <h4>{game.name}</h4>
-                {game.genres.map((genre) => (
-                  <p>{genre.name}</p>
-                ))}
+                <p>{game.rating} ID:{game.id}</p>
+                <p>
+                  {game.genres.map((genre) => genre.name)}
+                </p>
+                <Link to={id => `/games/${game.id}`}>Ver más..</Link>
               </div>
             </div>
             ))

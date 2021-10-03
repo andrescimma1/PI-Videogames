@@ -78,3 +78,15 @@ img {
   text-decoration: none;
   color: #3498db;
 }
+
+.star{
+  width: 70px;
+}
+
+.container-rating{
+  display: flex;
+}
+
+.container-rating p{
+  font-size: 20px;
+}

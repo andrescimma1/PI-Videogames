@@ -28,6 +28,8 @@ server.use((req, res, next) => {
 
 server.use("/", routes);
 
+server.use("/games/:id", routes);
+
 // Error catching endware.
 server.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
