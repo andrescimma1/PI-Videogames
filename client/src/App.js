@@ -5,6 +5,7 @@ import rash from "./video/rash.mp4";
 function App() {
   return (
     <div className="App">
+      <img class="star" src="https://thumbs.gfycat.com/CheerfulAntiqueDassie-max-1mb.gif"/>
       <Link to="/home">Home</Link>
       <div className="vid">
         <video class="face" loop autoPlay muted>

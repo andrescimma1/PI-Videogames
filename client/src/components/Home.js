@@ -115,6 +115,8 @@ export default function Home(props) {
                 <img src={game.background_image} />
               </div>
             ))}
+          <button>Anterior</button>
+          <button>Siguiente</button>
       </div>
     </div>
   );
