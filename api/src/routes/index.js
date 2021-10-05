@@ -8,7 +8,9 @@ const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
-router.get("/", (req, res) => {
+router.get("/videogames", (req, res) => {
+  const { name } = req.query;
+
   const page1 = axios.get(
     "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab"
   );
@@ -33,6 +35,13 @@ router.get("/", (req, res) => {
     });
     res.json(data);
   });
+
+  // if (name) {
+  //   if (game.name.toLowerCase().startsWith(action.query.toLowerCase())) {
+  //     return game;
+  //   }
+  //   return res.json(name);
+  // }
 });
 
 router.get("/games/:id", (req, res) => {
@@ -42,6 +51,12 @@ router.get("/games/:id", (req, res) => {
     .get(
       `https://api.rawg.io/api/games/${id}?key=3d9923605ce94d72b0cc3cc69bfae2ab`
     )
+    .then((response) => res.json(response.data));
+});
+
+router.get("/genres", (req, res) => {
+  axios
+    .get("https://api.rawg.io/api/genres?key=3d9923605ce94d72b0cc3cc69bfae2ab")
     .then((response) => res.json(response.data));
 });
 

@@ -8,13 +8,15 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Route } from "react-router-dom";
 import Home from "./components/Home";
 import { Details } from "./components/Details";
+import AddGame from "./components/AddGame";
 
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
       <Route exact path="/" component={App} />
-      <Route path="/home" component={Home} />
-      <Route path="/games/:id" component={Details} />
+      <Route exact path="/home" component={Home} />
+      <Route exact path="/games/:id" component={Details} />
+      <Route exact path="/addGame" component={AddGame} />
     </Provider>
   </BrowserRouter>,
   document.getElementById("root")

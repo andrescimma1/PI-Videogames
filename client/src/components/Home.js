@@ -120,6 +120,7 @@ export default function Home(props) {
           <option value="1">Mayor Rating</option>
           <option value="2">Menor Rating</option>
         </select>
+        <Link to="/addGame">Agregar juego</Link>
       </div>
       <div class="container">
         {(input.length === 0 || alphabetic || rating) && !genre

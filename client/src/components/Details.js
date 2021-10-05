@@ -16,7 +16,7 @@ export function Details(props) {
           <h4>{details.name}</h4>
           <p>{details.description}</p>
           <div>
-            {details.parent_platforms.map((object) => (
+            {details.platforms.map((object) => (
               <p>{object.platform.name} |</p>
             ))}
           </div>

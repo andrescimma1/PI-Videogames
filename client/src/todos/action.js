@@ -12,13 +12,26 @@ const axios = require("axios");
 
 export function showGames() {
   return function (dispatch) {
-    axios.get("http://localhost:3001").then((response) => {
+    axios.get("http://localhost:3001/videogames").then((response) => {
       let data = [];
       for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 20; j++) {
           data.push(response.data[i][j]);
         }
       }
+
+      data = data.map((d) => {
+        return {
+          id: d.id,
+          name: d.name,
+          description: d.description,
+          released: d.released,
+          rating: d.rating,
+          genres: d.genres,
+          platforms: d.platforms,
+          background_image: d.background_image,
+        };
+      });
 
       console.log(data);
       dispatch({ type: SHOW_GAMES, payload: data });
@@ -28,14 +41,10 @@ export function showGames() {
 
 export function showGenres() {
   return function (dispatch) {
-    axios
-      .get(
-        "https://api.rawg.io/api/genres?key=3d9923605ce94d72b0cc3cc69bfae2ab"
-      )
-      .then((response) => {
-        console.log(response.data.results);
-        dispatch({ type: SHOW_GENRES, payload: response.data.results });
-      });
+    axios.get("http://localhost:3001/genres").then((response) => {
+      console.log(response.data.results);
+      dispatch({ type: SHOW_GENRES, payload: response.data.results });
+    });
   };
 }
 
