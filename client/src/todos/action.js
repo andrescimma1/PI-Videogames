@@ -13,8 +13,15 @@ const axios = require("axios");
 export function showGames() {
   return function (dispatch) {
     axios.get("http://localhost:3001").then((response) => {
-      console.log(response.data.results);
-      dispatch({ type: SHOW_GAMES, payload: response.data.results });
+      let data = [];
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 20; j++) {
+          data.push(response.data[i][j]);
+        }
+      }
+
+      console.log(data);
+      dispatch({ type: SHOW_GAMES, payload: data });
     });
   };
 }
@@ -46,7 +53,7 @@ export function filterForGenre(value, array) {
 
 export function ascendingOrder(array) {
   return function (dispatch) {
-    dispatch({ type: ASCENDING_ORDER, payload: array  });
+    dispatch({ type: ASCENDING_ORDER, payload: array });
   };
 }
 
@@ -58,7 +65,7 @@ export function descendingOrder(array) {
 
 export function higherRating(array) {
   return function (dispatch) {
-    dispatch({ type: HIGHER_RATING, payload: array  });
+    dispatch({ type: HIGHER_RATING, payload: array });
   };
 }
 

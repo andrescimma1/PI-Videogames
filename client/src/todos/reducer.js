@@ -14,7 +14,7 @@ let initialState = {
   details: {},
   games: [],
   genres: [],
-  clickedGenre: false
+  clickedGenre: false,
 };
 
 const todos = (state = initialState, action) => {
@@ -39,7 +39,10 @@ const todos = (state = initialState, action) => {
         filteredGames: action.payload.filter((game) => {
           let exist = false;
           game.genres.map((g) => {
-            if (g.name === action.genre) exist = true;
+            if (g.name === action.genre) {
+              exist = true;
+              console.log(g.name);
+            }
           });
 
           if (exist) return game;
