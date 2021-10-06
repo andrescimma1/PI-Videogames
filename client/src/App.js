@@ -9,6 +9,8 @@ function App() {
         <video class="face" loop autoPlay muted>
           <source src={rash} type="video/mp4" />
         </video>
+      </div>
+      <div class="text-container">
         <p class="line">
           Bienvenido... Soy IO, y manejo la base de datos de esta red...
         </p>
