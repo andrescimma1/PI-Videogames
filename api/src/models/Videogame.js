@@ -14,6 +14,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    background_image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -28,10 +32,14 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    db: {
+      type: DataTypes.STRING,
+      default: "Pertenece a la BD",
+    },
   });
 
   sequelize
     .authenticate()
-    .then(() => console.log("CONECTADO A LA BASE DE DATOS"))
+    .then(() => console.log("CONECTADO A LA BASE DE DATOS DE VIDEOGAME"))
     .catch((error) => console.log("ERROR DE CONEXIÓN: " + error));
 };

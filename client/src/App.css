@@ -137,3 +137,9 @@ img {
   justify-content: center;
   background-color: rgb(26, 2, 26);
 }
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

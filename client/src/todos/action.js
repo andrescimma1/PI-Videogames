@@ -7,34 +7,14 @@ export const DESCENDING_ORDER = "DESCENDING_ORDER";
 export const HIGHER_RATING = "HIGHER_RATING";
 export const LOWER_RATING = "LOWER_RATING";
 export const SHOW_DETAILS = "SHOW_DETAILS";
+export const ADD_GAME = "ADD_GAME";
 let id = 0;
 const axios = require("axios");
 
 export function showGames() {
   return function (dispatch) {
     axios.get("http://localhost:3001/videogames").then((response) => {
-      let data = [];
-      for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 20; j++) {
-          data.push(response.data[i][j]);
-        }
-      }
-
-      data = data.map((d) => {
-        return {
-          id: d.id,
-          name: d.name,
-          description: d.description,
-          released: d.released,
-          rating: d.rating,
-          genres: d.genres,
-          platforms: d.platforms,
-          background_image: d.background_image,
-        };
-      });
-
-      console.log(data);
-      dispatch({ type: SHOW_GAMES, payload: data });
+      dispatch({ type: SHOW_GAMES, payload: response.data });
     });
   };
 }
@@ -42,8 +22,8 @@ export function showGames() {
 export function showGenres() {
   return function (dispatch) {
     axios.get("http://localhost:3001/genres").then((response) => {
-      console.log(response.data.results);
-      dispatch({ type: SHOW_GENRES, payload: response.data.results });
+      console.log(response.data);
+      dispatch({ type: SHOW_GENRES, payload: response.data });
     });
   };
 }
@@ -86,9 +66,36 @@ export function lowerRating(array) {
 
 export function showDetails(pathname) {
   return function (dispatch) {
+    console.log(pathname);
     axios.get(`http://localhost:3001${pathname}`).then((response) => {
       console.log(response.data);
       dispatch({ type: SHOW_DETAILS, payload: response.data });
     });
+  };
+}
+
+export function addGame(
+  name,
+  background_image,
+  description,
+  released,
+  rating,
+  genres,
+  platforms
+) {
+  return function (dispatch) {
+    axios
+      .post("http://localhost:3001/videogame", {
+        name,
+        background_image,
+        description,
+        released,
+        rating,
+        genres,
+        platforms,
+      })
+      .then((response) => {
+        dispatch({ type: ADD_GAME });
+      });
   };
 }

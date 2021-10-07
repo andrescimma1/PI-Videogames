@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterForGenre, showGenres } from "../todos/action";
+import { addGame, filterForGenre, showGenres } from "../todos/action";
+import { Link } from "react-router-dom";
 
 export default function AddGame() {
   const genres = useSelector((state) => state.genres);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const [genre, setGenre] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [released, setReleased] = useState("");
+  const [rating, setRating] = useState("");
+  const [platforms, setPlatforms] = useState("");
 
   useEffect(() => {
     if (loading) {
@@ -17,6 +22,7 @@ export default function AddGame() {
 
   return (
     <div>
+      <Link to="/home">BACK TO HOME</Link>
       <form>
         <label>Nombre: </label>
         <input />
@@ -59,6 +65,23 @@ export default function AddGame() {
           <option value="XBOX">XBOX</option>
         </select>
       </form>
+      <button
+        onClick={() =>
+          dispatch(
+            addGame(
+              "GTA",
+              "background_image",
+              "description",
+              "released",
+              "rating",
+              "Adventure",
+              "platforms"
+            )
+          )
+        }
+      >
+        CREAR VIDEOJUEGO
+      </button>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   HIGHER_RATING,
   LOWER_RATING,
   SHOW_DETAILS,
+  ADD_GAME,
 } from "./action";
 
 let initialState = {
@@ -114,6 +115,8 @@ const todos = (state = initialState, action) => {
         ...state,
         details: action.payload,
       };
+    case ADD_GAME:
+      return state;
     default:
       return state;
   }

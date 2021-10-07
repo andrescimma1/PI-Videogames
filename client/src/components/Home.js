@@ -120,7 +120,7 @@ export default function Home(props) {
           <option value="1">Mayor Rating</option>
           <option value="2">Menor Rating</option>
         </select>
-        <Link to="/addGame">Agregar juego</Link>
+        <Link to="/videogame">Agregar juego</Link>
       </div>
       <div class="container">
         {(input.length === 0 || alphabetic || rating) && !genre
@@ -129,8 +129,14 @@ export default function Home(props) {
                 <img src={game.background_image} />
                 <h4>{game.name}</h4>
                 <p>{game.rating}</p>
-                <p>{game.genres.map((genre) => genre.name)}</p>
-                <Link to={(id) => `/games/${game.id}`}>Ver más..</Link>
+                <p>
+                  {game.genres ? (
+                    game.genres.map((genre) => genre.name)
+                  ) : (
+                    <p>Sin género</p>
+                  )}
+                </p>
+                <Link to={(id) => `/videogame/${game.id}`}>Ver más..</Link>
               </div>
             ))
           : filteredGames.map((game) => (
@@ -142,6 +148,8 @@ export default function Home(props) {
                 <Link to={(id) => `/games/${game.id}`}>Ver más..</Link>
               </div>
             ))}
+      </div>
+      <div class="button-container">
         <button onClick={() => prevPage()}>Anterior</button>
         <button onClick={() => nextPage()}>Siguiente</button>
       </div>

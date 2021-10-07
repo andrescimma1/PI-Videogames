@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showDetails } from "../todos/action";
 
 export function Details(props) {
   const dispatch = useDispatch();
   const details = useSelector((state) => state.details);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (loading) {
+      console.log(window.location.pathname);
+      dispatch(showDetails(window.location.pathname));
+    }
+    setLoading(false);
+  });
+
   return (
     <div>
-      <button onClick={() => dispatch(showDetails(window.location.pathname))}>
-        Mostrar detalles
-      </button>
       {Object.keys(details).length !== 0 ? (
         <div>
           <img src={details.background_image} />
@@ -27,7 +34,7 @@ export function Details(props) {
           <p>{details.genres.map((genre) => genre.name)}</p>
         </div>
       ) : (
-        <p></p>
+        <p>Nada</p>
       )}
     </div>
   );
