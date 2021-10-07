@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showDetails } from "../todos/action";
+import { Link } from "react-router-dom";
 
 export function Details(props) {
   const dispatch = useDispatch();
@@ -16,26 +17,46 @@ export function Details(props) {
   });
 
   return (
-    <div>
+    <>
       {Object.keys(details).length !== 0 ? (
-        <div>
-          <img src={details.background_image} />
-          <h4>{details.name}</h4>
-          <p>{details.description}</p>
-          <div>
-            {details.platforms.map((object) => (
-              <p>{object.platform.name} |</p>
-            ))}
+        <main>
+          <div class="container-details">
+            <div class="cover">
+              <img class="background" src={details.background_image} />
+              <div class="platforms">
+                <span class="rating">Rating: {details.rating}</span>
+                <img
+                  class="star"
+                  src="http://pubwriter.net/images/gif/star.gif"
+                />
+              </div>
+              <div>
+                Plataformas:
+                {details.platforms.map((object) => (
+                  <span> {object.platform.name} | </span>
+                ))}
+              </div>
+              <div>
+                Géneros:
+                {details.genres.map((genre) => (
+                  <span> {genre.name} | </span>
+                ))}
+              </div>
+              <Link to="/home">Home</Link>
+            </div>
+            <div class="content">
+              <div class="content-body">
+                <div class="black-label">
+                  <span class="title">{details.name}</span>
+                  <p>{details.description.replaceAll(/<\/?[^>]+(>|$)/g, "")}</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="container-rating">
-            <img class="star" src="http://pubwriter.net/images/gif/star.gif" />
-            <p>{details.rating}</p>
-          </div>
-          <p>{details.genres.map((genre) => genre.name)}</p>
-        </div>
+        </main>
       ) : (
         <p>Nada</p>
       )}
-    </div>
+    </>
   );
 }

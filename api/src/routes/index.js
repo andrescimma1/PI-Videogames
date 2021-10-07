@@ -84,38 +84,52 @@ router.get("/videogames", async (req, res) => {
       });
   }
 
-  if (!gamesBoolean) {
-    data.map(async (data) => {
-      let platforms = "";
-      data.platforms.map((platform) => (platforms += platform.name + " "));
-      let game = Videogame.create({
-        id: data.id,
-        name: data.name,
-        background_image: data.background_image,
-        description: "data.description",
-        released: data.released,
-        rating: data.rating,
-        platforms: platforms,
-      });
+  // if (!gamesBoolean) {
+  //   data.map(async (data) => {
+  //     let platforms = "";
+  //     data.platforms.map((platform) => (platforms += platform.name + " "));
+  //     let game = Videogame.create({
+  //       id: data.id,
+  //       name: data.name,
+  //       background_image: data.background_image,
+  //       description: "data.description",
+  //       released: data.released,
+  //       rating: data.rating,
+  //       platforms: platforms,
+  //     });
 
-      let genre = Genres.findAll({
-        where: { name: { [Op.or]: data.genres }, include: [Videogame] },
-      });
+  //     let genre = Genres.findAll({
+  //       where: { name: { [Op.or]: data.genres }, include: [Videogame] },
+  //     });
 
-      if (genre) {
-        await game.addGenres(genre);
-      }
+  //     if (genre) {
+  //       await game.addGenres(genre);
+  //     }
+  //   });
+
+  //   gamesBoolean = true;
+  // } else {
+  //   const gamesDB = await Videogame.findAll({
+  //     include: {
+  //       model: Genres,
+  //     },
+  //   });
+  //   res.json(gamesDB);
+  // }
+
+  const gamesDB = await Videogame.findAll();
+  gamesDB.map((element) => {
+    data.push({
+      id: element.dataValues.id,
+      name: element.dataValues.name,
+      background_image: element.dataValues.background_image,
+      description: element.dataValues.description,
+      released: element.dataValues.released,
+      rating: element.dataValues.rating,
+      genres: [{ name: "Action" }],
+      platforms: element.dataValues.platforms,
     });
-
-    gamesBoolean = true;
-  } else {
-    const gamesDB = await Videogame.findAll({
-      include: {
-        model: Genres,
-      },
-    });
-    res.json(gamesDB);
-  }
+  });
 
   res.json(data);
 });

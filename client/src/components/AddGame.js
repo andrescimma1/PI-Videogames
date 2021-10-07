@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addGame, filterForGenre, showGenres } from "../todos/action";
 import { Link } from "react-router-dom";
@@ -7,11 +7,11 @@ export default function AddGame() {
   const genres = useSelector((state) => state.genres);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [released, setReleased] = useState("");
-  const [rating, setRating] = useState("");
-  const [platforms, setPlatforms] = useState("");
+  const [input, setInput] = useState({
+    username: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (loading) {
@@ -20,14 +20,72 @@ export default function AddGame() {
     }
   });
 
+  const handleInputChange = function (e) {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+
+    setErrors(
+      validate({
+        ...input,
+        [e.target.name]: e.target.value,
+      })
+    );
+  };
+
+  function validate(input) {
+    let errors = {};
+
+    if (!input.name) {
+      errors.name = "Name is required";
+    }
+
+    if (!input.description) {
+      errors.description = "Description is required";
+    }
+
+    return errors;
+  }
+
+  const handleSubmit = function () {
+    if (Object.keys(validate(input)).length === 0) {
+      dispatch(
+        addGame(
+          input.name,
+          "background_image",
+          input.description,
+          "released",
+          "rating",
+          "Adventure",
+          "platforms"
+        )
+      );
+    }
+  };
+
   return (
     <div>
       <Link to="/home">BACK TO HOME</Link>
-      <form>
+      <form onSubmit={() => handleSubmit()}>
         <label>Nombre: </label>
-        <input />
+        <input
+          className={errors.name && "danger"}
+          type="text"
+          name="name"
+          onChange={handleInputChange}
+          value={input.name}
+        />
+        {errors.name && <p className="danger">{errors.name}</p>}
         <label>Descripción: </label>
-        <textarea />
+        <textarea
+          className={errors.description && "danger"}
+          type="text"
+          name="description"
+          onChange={handleInputChange}
+          value={input.description}
+        />
+        {errors.description && <p className="danger">{errors.description}</p>}
         <label>Fecha de lanzamiento: </label>
         <input />
         <label>Rating: </label>
@@ -64,24 +122,8 @@ export default function AddGame() {
           <option value="PlayStation">PlayStation</option>
           <option value="XBOX">XBOX</option>
         </select>
+        <button type="submit">CREAR VIDEOJUEGO</button>
       </form>
-      <button
-        onClick={() =>
-          dispatch(
-            addGame(
-              "GTA",
-              "background_image",
-              "description",
-              "released",
-              "rating",
-              "Adventure",
-              "platforms"
-            )
-          )
-        }
-      >
-        CREAR VIDEOJUEGO
-      </button>
     </div>
   );
 }

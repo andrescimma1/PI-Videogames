@@ -51,16 +51,17 @@ export default function Home(props) {
 
   return (
     <div>
-      <input
-        onChange={(e) => {
-          if (e.target.value.length !== 0) {
-            setAlphabetic(false);
-            dispatch(filterForInput(e.target.value, games));
-          }
-          setInput(e.target.value);
-        }}
-      />
-      <div>
+      <div class="container-top">
+        <input
+          onChange={(e) => {
+            if (e.target.value.length !== 0) {
+              setAlphabetic(false);
+              dispatch(filterForInput(e.target.value, games));
+            }
+            setInput(e.target.value);
+          }}
+        />
+
         <select
           onChange={(e) => {
             console.log(e.target.value);
@@ -76,12 +77,13 @@ export default function Home(props) {
           }}
         >
           <option selected value="0">
-            Elige un género
+            Por género:
           </option>
           {genres.map((genre) => (
             <option value={genre.name}>{genre.name}</option>
           ))}
         </select>
+        <span class="custom-arrow"></span>
         <select
           onChange={(e) => {
             console.log(e.target.value);
@@ -96,11 +98,12 @@ export default function Home(props) {
           }}
         >
           <option selected value="0" disabled>
-            Elige una opción
+            Alfabéticamente
           </option>
-          <option value="1">Ascendente</option>
-          <option value="2">Descendente</option>
+          <option value="1">A - Z</option>
+          <option value="2">Z - A</option>
         </select>
+        <span class="custom-arrow"></span>
         <select
           onChange={(e) => {
             console.log(e.target.value);
@@ -115,11 +118,12 @@ export default function Home(props) {
           }}
         >
           <option selected value="0" disabled>
-            Elige una opción
+            Por rating:
           </option>
           <option value="1">Mayor Rating</option>
           <option value="2">Menor Rating</option>
         </select>
+        <span class="custom-arrow"></span>
         <Link to="/videogame">Agregar juego</Link>
       </div>
       <div class="container">
@@ -131,7 +135,7 @@ export default function Home(props) {
                 <p>{game.rating}</p>
                 <p>
                   {game.genres ? (
-                    game.genres.map((genre) => genre.name)
+                    game.genres.map((genre) => genre.name + " | ")
                   ) : (
                     <p>Sin género</p>
                   )}
@@ -144,7 +148,7 @@ export default function Home(props) {
                 <img src={game.background_image} />
                 <h4>{game.name}</h4>
                 <p>{game.rating}</p>
-                <p>{game.genres.map((genre) => genre.name)}</p>
+                <p>{game.genres.map((genre) => genre.name + " | ")}</p>
                 <Link to={(id) => `/games/${game.id}`}>Ver más..</Link>
               </div>
             ))}
