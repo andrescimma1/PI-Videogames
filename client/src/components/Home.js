@@ -124,7 +124,9 @@ export default function Home(props) {
           <option value="2">Menor Rating</option>
         </select>
         <span class="custom-arrow"></span>
-        <Link to="/videogame">Agregar juego</Link>
+        <Link class="link-button" to="/videogame">
+          Agregar juego
+        </Link>
       </div>
       <div class="container">
         {(input.length === 0 || alphabetic || rating) && !genre

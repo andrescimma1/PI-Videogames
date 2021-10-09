@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const axios = require("axios");
 const { response } = require("../app");
-const { Videogame, Genres } = require("../db");
+const { Videogame, Genre } = require("../db");
 const { Op } = require("sequelize");
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -26,18 +26,20 @@ const page5 = axios.get(
   "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab&page=5"
 );
 
-let genres;
-let gamesBoolean = false;
-
 axios
   .get("https://api.rawg.io/api/genres?key=3d9923605ce94d72b0cc3cc69bfae2ab")
   .then(
     (response) =>
       (genres = response.data.results.map((genre) => {
-        Genres.create({
-          id: genre.id,
-          name: genre.name,
-        });
+        Genre.create(
+          {
+            id: genre.id,
+            name: genre.name,
+          },
+          {
+            include: "videogames",
+          }
+        );
       }))
   );
 
@@ -83,41 +85,11 @@ router.get("/videogames", async (req, res) => {
         error: `No se encontraron videojuegos con el nombre: ${name}`,
       });
   }
-
-  // if (!gamesBoolean) {
-  //   data.map(async (data) => {
-  //     let platforms = "";
-  //     data.platforms.map((platform) => (platforms += platform.name + " "));
-  //     let game = Videogame.create({
-  //       id: data.id,
-  //       name: data.name,
-  //       background_image: data.background_image,
-  //       description: "data.description",
-  //       released: data.released,
-  //       rating: data.rating,
-  //       platforms: platforms,
-  //     });
-
-  //     let genre = Genres.findAll({
-  //       where: { name: { [Op.or]: data.genres }, include: [Videogame] },
-  //     });
-
-  //     if (genre) {
-  //       await game.addGenres(genre);
-  //     }
-  //   });
-
-  //   gamesBoolean = true;
-  // } else {
-  //   const gamesDB = await Videogame.findAll({
-  //     include: {
-  //       model: Genres,
-  //     },
-  //   });
-  //   res.json(gamesDB);
-  // }
-
-  const gamesDB = await Videogame.findAll();
+  const gamesDB = await Videogame.findAll({
+    include: {
+      model: Genre,
+    },
+  });
   gamesDB.map((element) => {
     data.push({
       id: element.dataValues.id,
@@ -126,8 +98,9 @@ router.get("/videogames", async (req, res) => {
       description: element.dataValues.description,
       released: element.dataValues.released,
       rating: element.dataValues.rating,
-      genres: [{ name: "Action" }],
+      genres: element.dataValues.genres,
       platforms: element.dataValues.platforms,
+      db: true,
     });
   });
 
@@ -137,15 +110,24 @@ router.get("/videogames", async (req, res) => {
 router.get("/videogame/:id", (req, res) => {
   const { id } = req.params;
 
-  axios
-    .get(
-      `https://api.rawg.io/api/games/${id}?key=3d9923605ce94d72b0cc3cc69bfae2ab`
-    )
-    .then((response) => res.json(response.data));
+  let gameFounded;
+  data.map((game) => {
+    if (game.id.toString() === id) gameFounded = game;
+  });
+
+  if (!gameFounded.hasOwnProperty("db")) {
+    axios
+      .get(
+        `https://api.rawg.io/api/games/${id}?key=3d9923605ce94d72b0cc3cc69bfae2ab`
+      )
+      .then((response) => res.json(response.data));
+  } else {
+    res.json(gameFounded);
+  }
 });
 
 router.get("/genres", async (req, res) => {
-  const db = await Genres.findAll({
+  const db = await Genre.findAll({
     include: {
       model: Videogame,
     },
@@ -166,25 +148,38 @@ router.post("/videogame", async (req, res) => {
   } = req.body;
 
   let videogame;
+  console.log(platforms);
+
+  let platformsString = "";
+
+  platforms.map(
+    (platform) => (platformsString = platformsString + platform + " | ")
+  );
 
   if (name && description && released && rating && platforms) {
-    videogame = await Videogame.create({
-      id: 400000,
-      name: name,
-      background_image: background_image,
-      description: description,
-      released: released,
-      rating: rating,
-      platforms: platforms,
+    videogame = await Videogame.create(
+      {
+        id: 400000,
+        name: name,
+        background_image: background_image,
+        description: description,
+        released: released,
+        rating: rating,
+        platforms: platformsString,
+      },
+      {
+        include: "genres",
+      }
+    );
+
+    const genresDBfounded = await Genre.findAll({
+      where: { [Op.or]: { name: genres } },
     });
+
+    videogame.addGenres(genresDBfounded);
+
+    res.send(req.body);
   }
-
-  const hola = await Genres.findOne({ where: { name: genres } });
-
-  console.log(hola);
-
-  await videogame.addGenres(hola);
-  res.send(req.body);
 });
 
 module.exports = router;

@@ -68,7 +68,7 @@ export function showDetails(pathname) {
   return function (dispatch) {
     console.log(pathname);
     axios.get(`http://localhost:3001${pathname}`).then((response) => {
-      console.log(response.data);
+      console.log(response);
       dispatch({ type: SHOW_DETAILS, payload: response.data });
     });
   };
