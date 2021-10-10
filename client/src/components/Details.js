@@ -31,7 +31,7 @@ export function Details(props) {
                 />
               </div>
               <div>
-                Plataformas:
+                Platforms:
                 {!details.hasOwnProperty("db") ? (
                   details.platforms.map((object) => (
                     <span> {object.platform.name} | </span>
@@ -41,7 +41,7 @@ export function Details(props) {
                 )}
               </div>
               <div>
-                Géneros:
+                Genres:
                 {details.genres.map((genre) => (
                   <span> {genre.name} | </span>
                 ))}
@@ -61,7 +61,7 @@ export function Details(props) {
           </div>
         </main>
       ) : (
-        <p>Nada</p>
+        <p>Loading...</p>
       )}
     </>
   );

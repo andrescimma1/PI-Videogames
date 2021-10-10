@@ -94,9 +94,9 @@ img {
   border-right: solid 1.5px rgba(255, 255, 255, 0.7);
   white-space: nowrap;
   overflow: hidden;
-  width: 51ch;
+  width: 41ch;
   text-align: center;
-  animation: typewriter 3s steps(51) 1s, cursor 500ms steps(51) infinite;
+  animation: typewriter 3s steps(41) 1s, cursor 500ms steps(41) infinite;
 }
 
 @keyframes typewriter {
@@ -104,7 +104,7 @@ img {
     width: 0;
   }
   100% {
-    width: 51ch;
+    width: 41ch;
   }
 }
 
@@ -203,7 +203,7 @@ select {
   background: #4d5061;
   color: white;
   border: 0;
-  margin-left: 10px;
+  margin-right: 12px;
 }
 
 input {
@@ -314,14 +314,71 @@ form .gender-details .category {
 }
 
 .link-button {
-  font: bold 11px Arial;
   text-decoration: none;
   background-color: #1a0350;
   color: #eeeeee;
-  padding: 2px 6px 2px 6px;
+  padding: 2px solid green;
+  border-radius: 0.75em;
+  font-weight: 700;
   border-top: 1px solid #cccccc;
   border-right: 1px solid #333333;
   border-bottom: 1px solid #333333;
   border-left: 1px solid #cccccc;
   font-size: 20px;
+  margin-left: 10px;
+  transform-style: preserve-3d;
+  transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
+}
+
+.link-button::before {
+  content: "";
+  box-shadow: 0 0 0 2px #200429, 0 0.625em 0 0 #9b59b6;
+  transform: translate3d(0, 0.75em, -1em);
+  transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
+}
+
+.link-button:hover {
+  background: #ccc;
+  transform: translate(0, 0.25em);
+}
+
+.link-button:hover::before {
+  box-shadow: 0 0 0 2px #200429, 0 0.5e, 0 0 #9b59b6;
+  transform: translate3d(0, 0.5em, -1em);
+}
+
+.link-button:active {
+  background: rgb(107, 0, 0);
+  transform: translate(0, 0.75em);
+}
+
+.link-button:active::before {
+  box-shadow: 0 0 0 2px #200429, 0 0 #9b59b6;
+  transform: translate3d(0, 0, -1em);
+}
+
+button {
+  margin: 0 15px;
+}
+
+.btn {
+  outline: none;
+  display: block;
+  border: 0;
+  font-size: 16px;
+  line-height: 1;
+  padding: 16px 30px;
+  border-radius: 30px;
+  background: #1c1577;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:focus {
+  background: #0f0c41;
+}
+
+.btn:active {
+  background: #1c1577;
 }

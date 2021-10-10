@@ -5,21 +5,17 @@ import rash from "./video/rash.mp4";
 function App() {
   return (
     <div className="App">
-      <div class="video-container">
-        <video class="face" loop autoPlay muted>
-          <source src={rash} type="video/mp4" />
-        </video>
-      </div>
+      <Link to="/home">
+        <div class="video-container">
+          <video class="face" loop autoPlay muted>
+            <source src={rash} type="video/mp4" />
+          </video>
+        </div>
+      </Link>
+
       <div class="text-container">
-        <p class="line">
-          Bienvenido... Soy IO, y manejo la base de datos de esta red...
-        </p>
+        <p class="line">Welcome... I am IO, and I manage the database...</p>
       </div>
-      <img
-        class="joystick"
-        src="http://thumbs.gfycat.com/CheerfulAntiqueDassie-max-1mb.gif"
-      />
-      <Link to="/home">Home</Link>
     </div>
   );
 }

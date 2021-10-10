@@ -224,7 +224,9 @@ export default function AddGame() {
                 <span>PlayStation</span>
               </div>
               <div class="button">
-                <button type="submit">CREAR VIDEOJUEGO</button>
+                <button class="btn" type="submit">
+                  CREATE VIDEOGAME
+                </button>
               </div>
             </div>
           </form>

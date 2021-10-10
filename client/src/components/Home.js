@@ -52,16 +52,6 @@ export default function Home(props) {
   return (
     <div>
       <div class="container-top">
-        <input
-          onChange={(e) => {
-            if (e.target.value.length !== 0) {
-              setAlphabetic(false);
-              dispatch(filterForInput(e.target.value, games));
-            }
-            setInput(e.target.value);
-          }}
-        />
-
         <select
           onChange={(e) => {
             console.log(e.target.value);
@@ -77,7 +67,7 @@ export default function Home(props) {
           }}
         >
           <option selected value="0">
-            Por género:
+            By genre:
           </option>
           {genres.map((genre) => (
             <option value={genre.name}>{genre.name}</option>
@@ -98,7 +88,7 @@ export default function Home(props) {
           }}
         >
           <option selected value="0" disabled>
-            Alfabéticamente
+            Alphabetically
           </option>
           <option value="1">A - Z</option>
           <option value="2">Z - A</option>
@@ -118,14 +108,23 @@ export default function Home(props) {
           }}
         >
           <option selected value="0" disabled>
-            Por rating:
+            By rating:
           </option>
-          <option value="1">Mayor Rating</option>
-          <option value="2">Menor Rating</option>
+          <option value="1">Higher Rating</option>
+          <option value="2">Lower Rating</option>
         </select>
         <span class="custom-arrow"></span>
+        <input
+          onChange={(e) => {
+            if (e.target.value.length !== 0) {
+              setAlphabetic(false);
+              dispatch(filterForInput(e.target.value, games));
+            }
+            setInput(e.target.value);
+          }}
+        />
         <Link class="link-button" to="/videogame">
-          Agregar juego
+          Add Game
         </Link>
       </div>
       <div class="container">
@@ -139,10 +138,10 @@ export default function Home(props) {
                   {game.genres ? (
                     game.genres.map((genre) => genre.name + " | ")
                   ) : (
-                    <p>Sin género</p>
+                    <p>No genre</p>
                   )}
                 </p>
-                <Link to={(id) => `/videogame/${game.id}`}>Ver más..</Link>
+                <Link to={(id) => `/videogame/${game.id}`}>Show more..</Link>
               </div>
             ))
           : filteredGames.map((game) => (
@@ -151,13 +150,17 @@ export default function Home(props) {
                 <h4>{game.name}</h4>
                 <p>{game.rating}</p>
                 <p>{game.genres.map((genre) => genre.name + " | ")}</p>
-                <Link to={(id) => `/games/${game.id}`}>Ver más..</Link>
+                <Link to={(id) => `/games/${game.id}`}>Show more..</Link>
               </div>
             ))}
       </div>
       <div class="button-container">
-        <button onClick={() => prevPage()}>Anterior</button>
-        <button onClick={() => nextPage()}>Siguiente</button>
+        <button class="btn" onClick={() => prevPage()}>
+          Previous
+        </button>
+        <button class="btn" onClick={() => nextPage()}>
+          Next
+        </button>
       </div>
     </div>
   );

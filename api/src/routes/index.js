@@ -85,6 +85,7 @@ router.get("/videogames", async (req, res) => {
         error: `No se encontraron videojuegos con el nombre: ${name}`,
       });
   }
+
   const gamesDB = await Videogame.findAll({
     include: {
       model: Genre,
@@ -156,10 +157,24 @@ router.post("/videogame", async (req, res) => {
     (platform) => (platformsString = platformsString + platform + " | ")
   );
 
-  if (name && description && released && rating && platforms) {
+  let id = -1;
+  let founded;
+
+  do {
+    id++;
+    founded = false;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === id) {
+        founded = true;
+        break;
+      }
+    }
+  } while (founded);
+
+  if (name && description && platforms) {
     videogame = await Videogame.create(
       {
-        id: 400000,
+        id: id,
         name: name,
         background_image: background_image,
         description: description,
