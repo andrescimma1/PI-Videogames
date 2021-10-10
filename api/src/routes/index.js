@@ -26,6 +26,8 @@ const page5 = axios.get(
   "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab&page=5"
 );
 
+let genres;
+
 axios
   .get("https://api.rawg.io/api/genres?key=3d9923605ce94d72b0cc3cc69bfae2ab")
   .then(
@@ -91,7 +93,18 @@ router.get("/videogames", async (req, res) => {
       model: Genre,
     },
   });
-  gamesDB.map((element) => {
+
+  let arrayIndex = [];
+
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < gamesDB.length; j++) {
+      if (data[i].id === gamesDB[j].id) arrayIndex.push(j);
+    }
+  }
+
+  gamesDB.map((element, index) => {
+    if (arrayIndex[index] === index) return;
+
     data.push({
       id: element.dataValues.id,
       name: element.dataValues.name,
@@ -148,9 +161,6 @@ router.post("/videogame", async (req, res) => {
     platforms,
   } = req.body;
 
-  let videogame;
-  console.log(platforms);
-
   let platformsString = "";
 
   platforms.map(
@@ -171,6 +181,8 @@ router.post("/videogame", async (req, res) => {
     }
   } while (founded);
 
+  let videogame;
+
   if (name && description && platforms) {
     videogame = await Videogame.create(
       {
@@ -181,6 +193,7 @@ router.post("/videogame", async (req, res) => {
         released: released,
         rating: rating,
         platforms: platformsString,
+        db: true,
       },
       {
         include: "genres",

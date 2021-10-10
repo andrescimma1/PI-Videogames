@@ -25,10 +25,6 @@ export function Details(props) {
               <img class="background" src={details.background_image} />
               <div class="platforms">
                 <span class="rating">Rating: {details.rating}</span>
-                <img
-                  class="star"
-                  src="http://pubwriter.net/images/gif/star.gif"
-                />
               </div>
               <div>
                 Platforms:
@@ -47,7 +43,7 @@ export function Details(props) {
                 ))}
               </div>
               <Link class="link-button" to="/home">
-                Home
+                BACK
               </Link>
             </div>
             <div class="content">

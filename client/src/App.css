@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
 
 html,
 body {
@@ -24,7 +25,6 @@ img {
   text-align: center;
   font-size: 40px;
   color: #6a6a6a;
-  margin-top: 100px;
   font-weight: 100;
 }
 
@@ -141,9 +141,13 @@ img {
   justify-content: center;
 }
 
+.button {
+  display: flex;
+}
+
 main {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -155,6 +159,7 @@ main {
   grid-template-columns: 40% 60%;
   grid-template-areas: "cover content";
   box-shadow: -2px 0px 33px 0px rgba(0, 0, 0, 0.75);
+  padding-top: 20px;
 }
 
 .cover {
@@ -218,26 +223,24 @@ input {
 
 .container-form {
   max-width: 700px;
-  width: 100%;
   background: #fff;
   padding: 25px 30px;
   border-radius: 5px;
   background-color: #200429;
 }
 
-.container .title {
-  font-size: 25px;
+.container-form .title {
   font-weight: 500;
   position: relative;
 }
 
-.container .title::before {
+.container-form .title::before {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
   height: 3px;
-  width: 30px;
+  width: 350px;
   background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
 
@@ -282,9 +285,10 @@ form .gender-details .gender-title {
 
 form .gender-details .category {
   display: flex;
-  width: 80%;
+  width: 70%;
   margin: 14px 0;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .gender-details .category label {
@@ -292,19 +296,14 @@ form .gender-details .category {
   align-items: center;
 }
 
-.gender-details .category .dot {
-  height: 18px;
-  width: 18px;
-  background: #d9d9d9;
-  border-radius: 50%;
-  margin-right: 10px;
-  border: 5px solid transparent;
-  transition: all 0.3s ease;
-}
-
 .gender-details {
   height: 200px;
   position: relative;
+}
+
+.gender-details div {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .body-details {
@@ -315,7 +314,7 @@ form .gender-details .category {
 
 .link-button {
   text-decoration: none;
-  background-color: #1a0350;
+  background-color: #24004e;
   color: #eeeeee;
   padding: 2px solid green;
   border-radius: 0.75em;
@@ -323,22 +322,25 @@ form .gender-details .category {
   border-top: 1px solid #cccccc;
   border-right: 1px solid #333333;
   border-bottom: 1px solid #333333;
-  border-left: 1px solid #cccccc;
+  border-left: 4px solid #1a0350;
   font-size: 20px;
   margin-left: 10px;
   transform-style: preserve-3d;
   transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .link-button::before {
   content: "";
-  box-shadow: 0 0 0 2px #200429, 0 0.625em 0 0 #9b59b6;
+  box-shadow: 0 0 0 0 #200429, 0 0.625em 0 0 #9b59b6;
   transform: translate3d(0, 0.75em, -1em);
   transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
 }
 
 .link-button:hover {
   background: #ccc;
+  border-left: 4px solid #ccc;
   transform: translate(0, 0.25em);
 }
 
@@ -348,6 +350,7 @@ form .gender-details .category {
 }
 
 .link-button:active {
+  border-left: 4px solid rgb(107, 0, 0);
   background: rgb(107, 0, 0);
   transform: translate(0, 0.75em);
 }
@@ -372,6 +375,7 @@ button {
   background: #1c1577;
   color: #ffffff;
   cursor: pointer;
+  font-family: "Roboto Slab", serif;
 }
 
 .btn:hover,

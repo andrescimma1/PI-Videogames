@@ -112,7 +112,6 @@ export default function AddGame() {
       ) : (
         <div class="container-form">
           <div class="title">Registration</div>
-          <Link to="/home">BACK TO HOME</Link>
           <form onSubmit={() => handleSubmit()}>
             <div class="game-details">
               <div class="input-box">
@@ -185,44 +184,62 @@ export default function AddGame() {
                   })}
                 </div>
               </div>
-              <div>
-                <input
-                  name="Android"
-                  onChange={(e) => handleCheckboxPlatformsChange(e)}
-                  type="checkbox"
-                />
-                <span>Android</span>
-                <input
-                  name="Apple Macintosh"
-                  onChange={(e) => handleCheckboxPlatformsChange(e)}
-                  type="checkbox"
-                />
-                <span>Apple Macintosh</span>
-                <input
-                  name="Linux"
-                  onChange={(e) => handleCheckboxPlatformsChange(e)}
-                  type="checkbox"
-                />
-                <span>Linux</span>
-                <input
-                  name="Nintendo"
-                  onChange={(e) => handleCheckboxPlatformsChange(e)}
-                  type="checkbox"
-                />
-                <span>Nintendo</span>
-                <input
-                  name="PC"
-                  onChange={(e) => handleCheckboxPlatformsChange(e)}
-                  type="checkbox"
-                />
-                <span>PC</span>
-                <input
-                  name="PlayStation"
-                  onChange={(e) => handleCheckboxPlatformsChange(e)}
-                  type="checkbox"
-                />
-                <span>PlayStation</span>
+              <div class="gender-details">
+                <span class="gender-title">Platforms: </span>
+                <div class="category">
+                  <div>
+                    <input
+                      name="Android"
+                      onChange={(e) => handleCheckboxPlatformsChange(e)}
+                      type="checkbox"
+                    />
+                    <span>Android</span>
+                  </div>
+                  <div>
+                    <input
+                      name="Apple Macintosh"
+                      onChange={(e) => handleCheckboxPlatformsChange(e)}
+                      type="checkbox"
+                    />
+                    <span>Apple Macintosh</span>
+                  </div>
+                  <div>
+                    <input
+                      name="Linux"
+                      onChange={(e) => handleCheckboxPlatformsChange(e)}
+                      type="checkbox"
+                    />
+                    <span>Linux</span>
+                  </div>
+                  <div>
+                    <input
+                      name="Nintendo"
+                      onChange={(e) => handleCheckboxPlatformsChange(e)}
+                      type="checkbox"
+                    />
+                    <span>Nintendo</span>
+                  </div>
+                  <div>
+                    <input
+                      name="PC"
+                      onChange={(e) => handleCheckboxPlatformsChange(e)}
+                      type="checkbox"
+                    />
+                    <span>PC</span>
+                  </div>
+                  <div>
+                    <input
+                      name="PlayStation"
+                      onChange={(e) => handleCheckboxPlatformsChange(e)}
+                      type="checkbox"
+                    />
+                    <span>PlayStation</span>
+                  </div>
+                </div>
               </div>
+              <Link class="link-button" to="/home">
+                back
+              </Link>
               <div class="button">
                 <button class="btn" type="submit">
                   CREATE VIDEOGAME

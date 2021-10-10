@@ -54,15 +54,12 @@ export default function Home(props) {
       <div class="container-top">
         <select
           onChange={(e) => {
-            console.log(e.target.value);
-            if (genre) setGenre(false);
-            else setGenre(true);
-
-            if (e.target.value !== 0) {
-              dispatch(filterForGenre(e.target.value, games));
-              setGenre(!genre);
+            if (e.target.value == 0) {
+              setGenre(false);
             } else {
-              setGenre(!genre);
+              setGenre(false);
+              dispatch(filterForGenre(e.target.value, games));
+              setGenre(true);
             }
           }}
         >
@@ -141,7 +138,7 @@ export default function Home(props) {
                     <p>No genre</p>
                   )}
                 </p>
-                <Link to={(id) => `/videogame/${game.id}`}>Show more..</Link>
+                <Link to={() => `/videogame/${game.id}`}>See more..</Link>
               </div>
             ))
           : filteredGames.map((game) => (
@@ -150,7 +147,7 @@ export default function Home(props) {
                 <h4>{game.name}</h4>
                 <p>{game.rating}</p>
                 <p>{game.genres.map((genre) => genre.name + " | ")}</p>
-                <Link to={(id) => `/games/${game.id}`}>Show more..</Link>
+                <Link to={() => `/videogame/${game.id}`}>Show more..</Link>
               </div>
             ))}
       </div>
