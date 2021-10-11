@@ -386,3 +386,69 @@ button {
 .btn:active {
   background: #1c1577;
 }
+
+.success {
+  position: absolute;
+  bottom: -350px;
+  right: 10px;
+  background-color: rgb(106, 168, 126);
+  padding: 20px 40px;
+  border-radius: 5px;
+  border-left: 6px solid rgb(28, 78, 28);
+}
+
+.check {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-size: 30px;
+  color: rgb(3, 71, 3);
+}
+
+.msg {
+  font-size: 19px;
+  color: rgb(32, 90, 32);
+  margin: 0 30px;
+  user-select: none;
+}
+
+.success.show {
+  animation: show_slide 1s ease forwards;
+}
+
+@keyframes show_slide {
+  0% {
+    transform: translateX(100%);
+  }
+  40% {
+    transform: translateX(-10%);
+  }
+  80% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-10%);
+  }
+}
+
+.error {
+  position: absolute;
+  bottom: -350px;
+  right: 10px;
+  background-color: rgb(124, 4, 0);
+  padding: 20px 40px;
+  border-radius: 5px;
+  border-left: 6px solid rgb(221, 0, 0);
+}
+
+.msg-error {
+  font-size: 19px;
+  color: rgb(255, 0, 0);
+  margin: 0 30px;
+  user-select: none;
+}
+
+.error.show {
+  animation: show_slide 1s ease forwards;
+}
