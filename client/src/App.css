@@ -17,8 +17,23 @@ body {
   background-color: rgb(18, 0, 32);
 }
 
+a {
+  text-decoration: none;
+}
+
 img {
   width: 400px;
+}
+
+*:focus {
+  outline: none;
+}
+
+input {
+  background-color: #74006169;
+  color: white;
+  border: none !important;
+  font-size: 1.5rem;
 }
 
 .title {
@@ -211,10 +226,6 @@ select {
   margin-right: 12px;
 }
 
-input {
-  font-size: 1.5rem;
-}
-
 .container-top {
   display: flex;
   align-items: center;
@@ -297,7 +308,8 @@ form .gender-details .category {
 }
 
 .gender-details {
-  height: 200px;
+  width: 600px;
+  height: 150px;
   position: relative;
 }
 
@@ -312,56 +324,8 @@ form .gender-details .category {
   justify-content: center;
 }
 
-.link-button {
-  text-decoration: none;
-  background-color: #24004e;
-  color: #eeeeee;
-  padding: 2px solid green;
-  border-radius: 0.75em;
-  font-weight: 700;
-  border-top: 1px solid #cccccc;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 4px solid #1a0350;
-  font-size: 20px;
-  margin-left: 10px;
-  transform-style: preserve-3d;
-  transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-}
-
-.link-button::before {
-  content: "";
-  box-shadow: 0 0 0 0 #200429, 0 0.625em 0 0 #9b59b6;
-  transform: translate3d(0, 0.75em, -1em);
-  transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
-}
-
-.link-button:hover {
-  background: #ccc;
-  border-left: 4px solid #ccc;
-  transform: translate(0, 0.25em);
-}
-
-.link-button:hover::before {
-  box-shadow: 0 0 0 2px #200429, 0 0.5e, 0 0 #9b59b6;
-  transform: translate3d(0, 0.5em, -1em);
-}
-
-.link-button:active {
-  border-left: 4px solid rgb(107, 0, 0);
-  background: rgb(107, 0, 0);
-  transform: translate(0, 0.75em);
-}
-
-.link-button:active::before {
-  box-shadow: 0 0 0 2px #200429, 0 0 #9b59b6;
-  transform: translate3d(0, 0, -1em);
-}
-
 button {
-  margin: 0 15px;
+  margin: 0;
 }
 
 .btn {
@@ -376,6 +340,7 @@ button {
   color: #ffffff;
   cursor: pointer;
   font-family: "Roboto Slab", serif;
+  margin: 20px;
 }
 
 .btn:hover,
@@ -387,9 +352,13 @@ button {
   background: #1c1577;
 }
 
+.button-container {
+  display: flex;
+}
+
 .success {
   position: absolute;
-  bottom: -350px;
+  bottom: -190px;
   right: 10px;
   background-color: rgb(106, 168, 126);
   padding: 20px 40px;
@@ -434,7 +403,7 @@ button {
 
 .error {
   position: absolute;
-  bottom: -350px;
+  bottom: -190px;
   right: 10px;
   background-color: rgb(124, 4, 0);
   padding: 20px 40px;
@@ -444,11 +413,37 @@ button {
 
 .msg-error {
   font-size: 19px;
-  color: rgb(255, 0, 0);
+  color: white;
   margin: 0 30px;
   user-select: none;
 }
 
 .error.show {
   animation: show_slide 1s ease forwards;
+}
+
+.danger {
+  color: red;
+}
+
+.back-btn {
+  background-color: rgb(148, 10, 10);
+  text-decoration: none;
+}
+
+.platforms {
+  height: 100px;
+}
+
+.link {
+  max-width: max-content;
+}
+
+.placeholder::placeholder {
+  padding-left: 0.3rem;
+  font-size: 1.25rem;
+}
+
+input[type="checkbox"] {
+  color: magenta !important;
 }

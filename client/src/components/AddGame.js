@@ -4,9 +4,11 @@ import { addGame, showGenres } from "../todos/action";
 import { Link } from "react-router-dom";
 
 export default function AddGame() {
+  // Obtengo los géneros del store
   const genres = useSelector((state) => state.genres);
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(true);
   const [input, setInput] = useState({
     name: "",
     description: "",
@@ -15,25 +17,28 @@ export default function AddGame() {
     released: "",
   });
   const [errors, setErrors] = useState({});
-
   const [checkbox, setCheckbox] = useState([]);
   const [checkboxPlatforms, setCheckboxPlatforms] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
 
+  // Despues de mostrar el DOM..
   useEffect(() => {
+    // Si la página está cargando entonces..
     if (loading) {
-      dispatch(showGenres());
-      setLoading(false);
+      dispatch(showGenres()); // Muestro los géneros
+      setLoading(false); // La página ya cargó
     }
   });
 
   const handleInputChange = function (e) {
+    // Si el input cambia entonces obtener su valor
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
 
+    // Valida el dato escrito
     setErrors(
       validate({
         ...input,
@@ -45,10 +50,12 @@ export default function AddGame() {
   function validate(input) {
     let errors = {};
 
+    // Si no hay nombre
     if (!input.name) {
       errors.name = "Name is required";
     }
 
+    // Si no hay descripción
     if (!input.description) {
       errors.description = "Description is required";
     }
@@ -57,46 +64,59 @@ export default function AddGame() {
   }
 
   const handleCheckboxChange = function (e) {
+    // Si es la primera vez que se marca un género
     if (checkbox.length === 0) {
+      // Asigno su nombre al array checkbox
+      // EJ: checkbox = ["Action"]
       setCheckbox([e.target.name]);
     } else {
       let exist = false;
 
+      // Sino recorro el array checkbox y busco si ya tiene ese género
       for (let i = 0; i < checkbox.length; i++) {
         if (checkbox[i] === e.target.name) exist = true;
       }
 
+      // Si lo tiene lo saco del array (es porque estoy desmarcando la casilla)
       if (exist) setCheckbox(checkbox.filter((name) => name !== e.target.name));
+      // Sino lo sumo al array
       else setCheckbox([...checkbox, e.target.name]);
     }
-    console.log(checkbox);
   };
 
   const handleCheckboxPlatformsChange = function (e) {
+    // Si es la primera vez que se marca una plataforma
     if (checkboxPlatforms.length === 0) {
+      // Asigno su nombre al array checkboxPlatforms
+      // EJ: checkboxPlatforms = ["PC"]
       setCheckboxPlatforms([e.target.name]);
     } else {
       let exist = false;
 
+      // Sino recorro el array checkboxPlatforms y busco si ya tiene esa plataforma
       for (let i = 0; i < checkboxPlatforms.length; i++) {
         if (checkboxPlatforms[i] === e.target.name) exist = true;
       }
 
+      // Si lo tiene lo saco del array (es porque estoy desmarcando la casilla)
       if (exist)
         setCheckboxPlatforms(
           checkboxPlatforms.filter((name) => name !== e.target.name)
         );
+      // Sino lo sumo al array
       else setCheckboxPlatforms([...checkboxPlatforms, e.target.name]);
     }
-    console.log(checkboxPlatforms);
   };
 
+  // Si hago clic sobre el botón "CREATE VIDEOGAME"
   const handleSubmit = function () {
     if (
       Object.keys(validate(input)).length === 0 &&
       checkbox.length > 0 &&
       checkboxPlatforms.length > 0
     ) {
+      // Si está todo OK entonces..
+      // Despacho el juego
       dispatch(
         addGame(
           input.name,
@@ -108,9 +128,11 @@ export default function AddGame() {
           checkboxPlatforms
         )
       );
+      // Muestro un mensaje satisfactorio
       setErrorMsg(false);
       setSuccessMsg(true);
     } else {
+      // Sino muestro un mensaje de error
       setSuccessMsg(false);
       setErrorMsg(true);
     }
@@ -156,7 +178,7 @@ export default function AddGame() {
                 className={errors.name && "danger"}
                 type="text"
                 name="name"
-                placeholder="Enter the name"
+                placeholder="Enter the name.."
                 onChange={handleInputChange}
                 value={input.name}
               />
@@ -165,6 +187,7 @@ export default function AddGame() {
             <div class="input-box">
               <span class="details">Description: </span>
               <input
+                placeholder="Enter the description.."
                 className={errors.description && "danger"}
                 type="text"
                 name="description"
@@ -178,6 +201,7 @@ export default function AddGame() {
             <div class="input-box">
               <span class="details">Released: </span>
               <input
+                placeholder="Enter the released date.."
                 type="text"
                 name="released"
                 onChange={handleInputChange}
@@ -187,6 +211,7 @@ export default function AddGame() {
             <div class="input-box">
               <span class="details">Rating: </span>
               <input
+                placeholder="Enter the rating.."
                 type="text"
                 name="rating"
                 onChange={handleInputChange}
@@ -196,6 +221,7 @@ export default function AddGame() {
             <div class="input-box">
               <span class="details">Image: </span>
               <input
+                placeholder="Enter a link image.."
                 type="text"
                 name="background_image"
                 onChange={handleInputChange}
@@ -220,7 +246,7 @@ export default function AddGame() {
                 })}
               </div>
             </div>
-            <div class="gender-details">
+            <div class="gender-details platforms">
               <span class="gender-title">Platforms: </span>
               <div class="category">
                 <div>
@@ -273,10 +299,10 @@ export default function AddGame() {
                 </div>
               </div>
             </div>
-            <Link class="link-button" to="/home">
-              Back
-            </Link>
-            <div class="button">
+            <div class="button-container">
+              <Link to="/home">
+                <button class="btn back-btn">Back</button>
+              </Link>
               <button class="btn" onClick={() => handleSubmit()}>
                 CREATE VIDEOGAME
               </button>

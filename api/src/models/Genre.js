@@ -4,6 +4,7 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define("genre", {
+    // Le asigno las propiedades
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -13,8 +14,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
   });
+  // Me conecto a la BD desde el modelo "Genre"
   sequelize
     .authenticate()
-    .then(() => console.log("CONECTADO A LA BASE DE DATOS DE GENRES"))
+    .then(() => console.log("CONECTADO A LA BASE DE DATOS DE GENRE"))
     .catch((error) => console.log("ERROR DE CONEXIÓN: " + error));
 };

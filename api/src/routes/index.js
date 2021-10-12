@@ -8,8 +8,10 @@ const { Op } = require("sequelize");
 
 const router = Router();
 
+// defino la variable data para asignarle todos los juegos (incluyendo los de la BD)
 let data = [];
 
+// hago las llamadas a la API con sus distintas páginas
 const page1 = axios.get(
   "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab"
 );
@@ -26,25 +28,7 @@ const page5 = axios.get(
   "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab&page=5"
 );
 
-let genres;
-
-axios
-  .get("https://api.rawg.io/api/genres?key=3d9923605ce94d72b0cc3cc69bfae2ab")
-  .then(
-    (response) =>
-      (genres = response.data.results.map((genre) => {
-        Genre.create(
-          {
-            id: genre.id,
-            name: genre.name,
-          },
-          {
-            include: "videogames",
-          }
-        );
-      }))
-  );
-
+// Pusheo en data el contenido de las 5 páginas
 Promise.all([page1, page2, page3, page4, page5]).then(function (contents) {
   contents.forEach((element) => {
     for (let i = 0; i < 20; i++) {
@@ -62,14 +46,33 @@ Promise.all([page1, page2, page3, page4, page5]).then(function (contents) {
   });
 });
 
+// Llamo a la API para traer todos los géneros y los guardo uno por uno en la BD
+axios
+  .get("https://api.rawg.io/api/genres?key=3d9923605ce94d72b0cc3cc69bfae2ab")
+  .then((response) =>
+    response.data.results.map((genre) => {
+      Genre.create(
+        {
+          id: genre.id,
+          name: genre.name,
+        },
+        {
+          include: "videogames",
+        }
+      );
+    })
+  );
+
 // Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
 router.get("/videogames", async (req, res) => {
   const { name } = req.query;
   let found = [];
   let counter = 0;
 
+  // Verificamos si nos pasaron un nombre como query
+  // Ej: /videogames?name=Grand
   if (name) {
+    // Si hay un nombre entonces buscar los primeros 15 juegos que contengan esa palabra
     data.map((game) => {
       if (
         game.name.toLowerCase().includes(name.toLowerCase()) &&
@@ -81,13 +84,17 @@ router.get("/videogames", async (req, res) => {
     });
 
     if (found.length > 0) {
+      // Si se encontraron juegos entonces mostrarlos
       res.json(found);
-    } else
+    }
+    // Sino lanzar un mensaje de error
+    else
       res.json({
         error: `No se encontraron videojuegos con el nombre: ${name}`,
       });
   }
 
+  // Busco los juegos que hay en la BD
   const gamesDB = await Videogame.findAll({
     include: {
       model: Genre,
@@ -95,13 +102,14 @@ router.get("/videogames", async (req, res) => {
   });
 
   let arrayIndex = [];
-
+  // Busco el índice de los juegos de la BD que tienen el mismo "id" que los de la API
   for (let i = 0; i < data.length; i++) {
     for (let j = 0; j < gamesDB.length; j++) {
       if (data[i].id === gamesDB[j].id) arrayIndex.push(j);
     }
   }
 
+  // Pusheo a data solo los juegos de la BD que tengan distinto "id"
   gamesDB.map((element, index) => {
     if (arrayIndex[index] === index) return;
 
@@ -123,30 +131,36 @@ router.get("/videogames", async (req, res) => {
 
 router.get("/videogame/:id", (req, res) => {
   const { id } = req.params;
-
   let gameFounded;
+
+  // Busco un juego con esa id
   data.map((game) => {
     if (game.id.toString() === id) gameFounded = game;
   });
 
+  // Si el juego es de la API
   if (!gameFounded.hasOwnProperty("db")) {
+    // Uso el "search" brindado por la API
     axios
       .get(
         `https://api.rawg.io/api/games/${id}?key=3d9923605ce94d72b0cc3cc69bfae2ab`
       )
       .then((response) => res.json(response.data));
   } else {
+    // Sino.. si es de la BD mostrarlo
     res.json(gameFounded);
   }
 });
 
 router.get("/genres", async (req, res) => {
+  // Busco todos los géneros desde la BD
   const db = await Genre.findAll({
     include: {
       model: Videogame,
     },
   });
 
+  // Los muestro como "json"
   res.json(db);
 });
 
@@ -163,6 +177,7 @@ router.post("/videogame", async (req, res) => {
 
   let platformsString = "";
 
+  // Guardo las plataformas en un string
   platforms.map(
     (platform) => (platformsString = platformsString + platform + " | ")
   );
@@ -170,6 +185,7 @@ router.post("/videogame", async (req, res) => {
   let id = -1;
   let founded;
 
+  // Busco un id disponible para el nuevo juego
   do {
     id++;
     founded = false;
@@ -183,7 +199,9 @@ router.post("/videogame", async (req, res) => {
 
   let videogame;
 
+  // Si tiene propiedades válidas entonces..
   if (name && description && platforms) {
+    // Creo el nuevo juego
     videogame = await Videogame.create(
       {
         id: id,
@@ -200,12 +218,18 @@ router.post("/videogame", async (req, res) => {
       }
     );
 
+    // Busco los generos que le pertenecen al nuevo juego
     const genresDBfounded = await Genre.findAll({
+      // [Op.or]: Lo uso para establecer una condición "or" ( || )
+      // EJ: Cuando "name" sea igual a Arcade o Educational
       where: { [Op.or]: { name: genres } },
     });
 
+    // Añado géneros a el nuevo videojuego, y esos géneros van a tener
+    //  este videojuego. Esto se ve reflejado en la BD
     videogame.addGenres(genresDBfounded);
 
+    // Todo OK
     res.send(req.body);
   }
 });

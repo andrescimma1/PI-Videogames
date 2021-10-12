@@ -13,6 +13,7 @@ const axios = require("axios");
 
 export function showGames() {
   return function (dispatch) {
+    // Llamo al backend para obtener todos los juegos y los despacho
     axios.get("http://localhost:3001/videogames").then((response) => {
       dispatch({ type: SHOW_GAMES, payload: response.data });
     });
@@ -21,6 +22,7 @@ export function showGames() {
 
 export function showGenres() {
   return function (dispatch) {
+    // Llamo al backend para obtener todos los géneros y los despacho
     axios.get("http://localhost:3001/genres").then((response) => {
       console.log(response.data);
       dispatch({ type: SHOW_GENRES, payload: response.data });
@@ -30,45 +32,54 @@ export function showGenres() {
 
 export function filterForInput(value, array) {
   return function (dispatch) {
+    // Despacho el tipo, los juegos y el valor del input
     dispatch({ type: FILTER_GAMES_INPUT, payload: array, query: value });
   };
 }
 
 export function filterForGenre(value, array) {
   return function (dispatch) {
+    // Despacho el tipo, los juegos y el género elegido
     dispatch({ type: FILTER_GAMES_GENRE, payload: array, genre: value });
   };
 }
 
 export function ascendingOrder(array) {
   return function (dispatch) {
+    // Despacho el tipo y los juegos
     dispatch({ type: ASCENDING_ORDER, payload: array });
   };
 }
 
 export function descendingOrder(array) {
   return function (dispatch) {
+    // Despacho el tipo y los juegos
     dispatch({ type: DESCENDING_ORDER, payload: array });
   };
 }
 
 export function higherRating(array) {
   return function (dispatch) {
+    // Despacho el tipo y los juegos
     dispatch({ type: HIGHER_RATING, payload: array });
   };
 }
 
 export function lowerRating(array) {
   return function (dispatch) {
+    // Despacho el tipo y los juegos
     dispatch({ type: LOWER_RATING, payload: array });
   };
 }
 
 export function showDetails(pathname) {
   return function (dispatch) {
-    console.log(pathname);
+    // Llamo al backend con el id que obtengo del frontend y
+    //  despacho la respuesta (el juego)
+
+    // EJ: axios.get(`http://localhost:3001/videogame/3821`)
+
     axios.get(`http://localhost:3001${pathname}`).then((response) => {
-      console.log(response);
       dispatch({ type: SHOW_DETAILS, payload: response.data });
     });
   };
@@ -84,6 +95,8 @@ export function addGame(
   platforms
 ) {
   return function (dispatch) {
+    // Llamo al backend y le paso las propiedades para que se encargue de crear el juego.
+    // Despacho solo el tipo.
     axios
       .post("http://localhost:3001/videogame", {
         name,

@@ -112,6 +112,8 @@ export default function Home(props) {
         </select>
         <span class="custom-arrow"></span>
         <input
+          class="placeholder"
+          placeholder="Search game.."
           onChange={(e) => {
             if (e.target.value.length !== 0) {
               setAlphabetic(false);
@@ -120,8 +122,8 @@ export default function Home(props) {
             setInput(e.target.value);
           }}
         />
-        <Link class="link-button" to="/videogame">
-          Add Game
+        <Link to="/videogame">
+          <button class="btn">Add Game</button>
         </Link>
       </div>
       <div class="container">

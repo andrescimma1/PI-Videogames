@@ -42,8 +42,8 @@ export function Details(props) {
                   <span> {genre.name} | </span>
                 ))}
               </div>
-              <Link class="link-button" to="/home">
-                BACK
+              <Link class="link" to="/home">
+                <button class="btn back-btn">Back</button>
               </Link>
             </div>
             <div class="content">

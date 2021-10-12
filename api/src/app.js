@@ -26,9 +26,8 @@ server.use((req, res, next) => {
   next();
 });
 
+// Le aviso que voy a usar las rutas que están en "routes/index"
 server.use("/", routes);
-
-server.use("/games/:id", routes);
 
 // Error catching endware.
 server.use((err, req, res, next) => {
