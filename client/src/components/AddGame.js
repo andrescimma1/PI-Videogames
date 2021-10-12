@@ -153,6 +153,7 @@ export default function AddGame() {
       ) : (
         <p></p>
       )}
+      {/* Si hay un error entonces.. */}
       {errorMsg ? (
         <div class="error show">
           <span class="check">
@@ -166,6 +167,7 @@ export default function AddGame() {
       ) : (
         <p></p>
       )}
+      {/* Si está cargando entonces.. */}
       {loading ? (
         <p>Loading</p>
       ) : (
@@ -232,6 +234,7 @@ export default function AddGame() {
             <div class="gender-details">
               <span class="gender-title">Genres: </span>
               <div class="category">
+                {/* Muestro todos los géneros */}
                 {genres.map((genre) => {
                   return (
                     <div>

@@ -309,7 +309,8 @@ form .gender-details .category {
 
 .gender-details {
   width: 600px;
-  height: 150px;
+  height: 130px;
+  margin-top: 0.5rem;
   position: relative;
 }
 
@@ -446,4 +447,13 @@ button {
 
 input[type="checkbox"] {
   color: magenta !important;
+}
+
+.cover div {
+  margin-left: 0.5rem;
+  padding-top: 0.8rem;
+}
+
+.cover div span {
+  font-family: "Roboto Slab", serif;
 }

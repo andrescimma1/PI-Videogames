@@ -4,13 +4,20 @@ import { showDetails } from "../todos/action";
 import { Link } from "react-router-dom";
 
 export function Details(props) {
-  const dispatch = useDispatch();
+  // Obtengo los detalles
   const details = useSelector((state) => state.details);
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(true);
 
+  // Despues de mostrar el DOM..
   useEffect(() => {
     if (loading) {
-      console.log(window.location.pathname);
+      // Si está cargando entonces..
+      // Muestro los detalles por el id
+
+      // EJ:
+      // window.location.pathname = "/videogame/3493"
       dispatch(showDetails(window.location.pathname));
     }
     setLoading(false);
@@ -18,13 +25,21 @@ export function Details(props) {
 
   return (
     <>
+      {/* Si se encontraron los detalles, mostrarlos */}
       {Object.keys(details).length !== 0 ? (
         <main>
           <div class="container-details">
             <div class="cover">
               <img class="background" src={details.background_image} />
-              <div class="platforms">
-                <span class="rating">Rating: {details.rating}</span>
+              <div>
+                <span>Rating: {details.rating}</span>
+              </div>
+              <div>
+                {!details.hasOwnProperty("db") ? (
+                  <span>This game belongs to the API</span>
+                ) : (
+                  <span>This game belongs to the Database</span>
+                )}
               </div>
               <div>
                 Platforms:
