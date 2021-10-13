@@ -35,9 +35,11 @@ export function Details(props) {
                 <span>Rating: {details.rating}</span>
               </div>
               <div>
+                {/* Si no pertenece a la BD (pertenece a la API) entonces.. */}
                 {!details.hasOwnProperty("db") ? (
                   <span>This game belongs to the API</span>
                 ) : (
+                  // Sino..
                   <span>This game belongs to the Database</span>
                 )}
               </div>
@@ -65,6 +67,7 @@ export function Details(props) {
               <div class="content-body">
                 <div class="black-label">
                   <span class="title">{details.name}</span>
+                  {/* Uso el replaceAll para sacar las etiquetas "<p></p>" de la descripción*/}
                   <p>{details.description.replaceAll(/<\/?[^>]+(>|$)/g, "")}</p>
                 </div>
               </div>
