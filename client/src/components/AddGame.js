@@ -178,6 +178,7 @@ export default function AddGame() {
               <span class="details">Name: </span>
               <input
                 className={errors.name && "danger"}
+                autocomplete="off"
                 type="text"
                 name="name"
                 placeholder="Enter the name.."

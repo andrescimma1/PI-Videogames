@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
+  APIorDB,
+  API_OR_DB,
   ascendingOrder,
   descendingOrder,
   filterForGenre,
@@ -25,6 +27,7 @@ export default function Home(props) {
   const [alphabetic, setAlphabetic] = useState(false);
   const [rating, setRating] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [apiOrDb, setApiOrDb] = useState(false);
 
   // Estados para el paginado
   const [currentPage, setCurrentPage] = useState(1);
@@ -122,6 +125,22 @@ export default function Home(props) {
           <option value="1">Higher Rating</option>
           <option value="2">Lower Rating</option>
         </select>
+        <select
+          onChange={(e) => {
+            setApiOrDb(false);
+            if (e.target.value == 0) setApiOrDb(false);
+            else {
+              dispatch(APIorDB(games, e.target.value));
+              setApiOrDb(true);
+            }
+          }}
+        >
+          <option selected value="0">
+            API or Database:
+          </option>
+          <option value="api">API</option>
+          <option value="db">DB</option>
+        </select>
         <span class="custom-arrow"></span>
         <input
           class="placeholder"
@@ -141,7 +160,7 @@ export default function Home(props) {
         </Link>
       </div>
       <div class="container">
-        {(input.length === 0 || alphabetic || rating) && !genre
+        {(input.length === 0 || alphabetic || rating) && !genre && !apiOrDb
           ? // Si no buscaron ni filtraron nada entonces..
             currentPosts.map((game) => (
               <div class="card">

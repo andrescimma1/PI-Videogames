@@ -8,6 +8,7 @@ export const HIGHER_RATING = "HIGHER_RATING";
 export const LOWER_RATING = "LOWER_RATING";
 export const SHOW_DETAILS = "SHOW_DETAILS";
 export const ADD_GAME = "ADD_GAME";
+export const API_OR_DB = "API_OR_DB";
 let id = 0;
 const axios = require("axios");
 
@@ -110,5 +111,12 @@ export function addGame(
       .then((response) => {
         dispatch({ type: ADD_GAME });
       });
+  };
+}
+
+export function APIorDB(array, dbOrAPI) {
+  return function (dispatch) {
+    // Despacho el tipo y los juegos
+    dispatch({ type: API_OR_DB, payload: { array, dbOrAPI } });
   };
 }

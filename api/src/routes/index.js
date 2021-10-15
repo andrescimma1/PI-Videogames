@@ -3,6 +3,7 @@ const axios = require("axios");
 const { response } = require("../app");
 const { Videogame, Genre } = require("../db");
 const { Op } = require("sequelize");
+const { API_KEY } = process.env;
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -12,21 +13,11 @@ const router = Router();
 let data = [];
 
 // hago las llamadas a la API con sus distintas páginas
-const page1 = axios.get(
-  "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab"
-);
-const page2 = axios.get(
-  "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab&page=2"
-);
-const page3 = axios.get(
-  "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab&page=3"
-);
-const page4 = axios.get(
-  "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab&page=4"
-);
-const page5 = axios.get(
-  "https://api.rawg.io/api/games?key=3d9923605ce94d72b0cc3cc69bfae2ab&page=5"
-);
+const page1 = axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`);
+const page2 = axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=2`);
+const page3 = axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=3`);
+const page4 = axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=4`);
+const page5 = axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=5`);
 
 // Pusheo en data el contenido de las 5 páginas
 Promise.all([page1, page2, page3, page4, page5]).then(function (contents) {
@@ -47,21 +38,19 @@ Promise.all([page1, page2, page3, page4, page5]).then(function (contents) {
 });
 
 // Llamo a la API para traer todos los géneros y los guardo uno por uno en la BD
-axios
-  .get("https://api.rawg.io/api/genres?key=3d9923605ce94d72b0cc3cc69bfae2ab")
-  .then((response) =>
-    response.data.results.map((genre) => {
-      Genre.create(
-        {
-          id: genre.id,
-          name: genre.name,
-        },
-        {
-          include: "videogames",
-        }
-      );
-    })
-  );
+axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`).then((response) =>
+  response.data.results.map((genre) => {
+    Genre.create(
+      {
+        id: genre.id,
+        name: genre.name,
+      },
+      {
+        include: "videogames",
+      }
+    );
+  })
+);
 
 // Configurar los routers
 router.get("/videogames", async (req, res) => {
@@ -142,9 +131,7 @@ router.get("/videogame/:id", (req, res) => {
   if (!gameFounded.hasOwnProperty("db")) {
     // Uso el "search" brindado por la API
     axios
-      .get(
-        `https://api.rawg.io/api/games/${id}?key=3d9923605ce94d72b0cc3cc69bfae2ab`
-      )
+      .get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)
       .then((response) => res.json(response.data));
   } else {
     // Sino.. si es de la BD mostrarlo

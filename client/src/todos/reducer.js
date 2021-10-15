@@ -9,6 +9,7 @@ import {
   LOWER_RATING,
   SHOW_DETAILS,
   ADD_GAME,
+  API_OR_DB,
 } from "./action";
 
 let initialState = {
@@ -146,6 +147,34 @@ const todos = (state = initialState, action) => {
     case ADD_GAME:
       // Devuelvo solo el estado
       return state;
+
+    case API_OR_DB:
+      if (action.payload.dbOrAPI === "api") {
+        console.log("entra");
+        return {
+          ...state,
+
+          filteredGames: action.payload.array.filter((game) => {
+            // Si existen juegos con ese género entonces los retorno
+            if (!game.hasOwnProperty("db")) {
+              return game;
+            }
+          }),
+        };
+      } else if (action.payload.dbOrAPI === "db") {
+        return {
+          ...state,
+          filteredGames: action.payload.array.filter((game) => {
+            // Si existen juegos con ese género entonces los retorno
+            if (game.hasOwnProperty("db")) {
+              console.log(game);
+              return game;
+            }
+          }),
+        };
+      } else {
+        return state;
+      }
 
     default:
       // Por defecto devuelvo el estado

@@ -359,8 +359,8 @@ button {
 
 .success {
   position: absolute;
-  bottom: -190px;
-  right: 10px;
+  bottom: 45px;
+  right: 200px;
   background-color: rgb(106, 168, 126);
   padding: 20px 40px;
   border-radius: 5px;
@@ -404,8 +404,8 @@ button {
 
 .error {
   position: absolute;
-  bottom: -190px;
-  right: 10px;
+  bottom: 45px;
+  right: 200px;
   background-color: rgb(124, 4, 0);
   padding: 20px 40px;
   border-radius: 5px;
